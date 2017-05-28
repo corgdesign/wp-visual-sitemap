@@ -22,15 +22,29 @@ function wpvs_enqueue_admin_scripts() {
     # admin css
     wp_enqueue_style( 'wpvs_admin_css', plugins_url('admin/wpvs-admin-styles.css', __FILE__ ));
 
-    // # front end css
-    // wp_enqueue_style( 'wpvs_front_end_css', plugins_url('css/wpvs-front-end.css', __FILE__ ));
-
-    // # front end javascript
-    // wp_enqueue_script( 'wpvs-admin-js', plugins_url('js/wpvs-front-end.js', __FILE__ ), array( 'jquery', 'wp-color-picker' ), false, true );
-
 }
 add_action( 'admin_enqueue_scripts', 'wpvs_enqueue_admin_scripts' );
 
+
+function wpvs_enqueue_front_end_scripts() {
+
+	# front end css
+    wp_enqueue_style( 'wpvs_front_end_css', plugins_url('css/wpvs-front-end.css', __FILE__ ));
+
+}
+add_action( 'wp_enqueue_scripts', 'wpvs_enqueue_front_end_scripts' );
+
+
+function wpvs_enqueue_front_end_fontawesome() {
+
+	# font awesome
+	wp_enqueue_style( 'wpvs_front_end_fontawesome_css', plugins_url('fontawesome/css/font-awesome.min.css', __FILE__ ));
+
+}
+
+if ( get_option( 'use_icons' ) === 'yes' ) {
+	add_action( 'wp_enqueue_scripts', 'wpvs_enqueue_front_end_fontawesome' );
+}
 
 
 #************************************
@@ -49,7 +63,7 @@ function wpvs_plugin_options() {
 	}
 
 	?>
-	<div class="wrap">
+	<div class="wrap wpvs_wrap">
 		<h1>WP Visual Sitemap Settings</h1>
 		<form method="post" action="options.php">
 			<?php
@@ -57,11 +71,25 @@ function wpvs_plugin_options() {
 				settings_fields( 'wpvs_option_group' );
 				do_settings_sections( 'wpvs_option_group' ); ?>
 
-				<table class="form-table">
+				<table class="form-table" id="wpvs_options_table">
 			        <tr valign="top">
 			        	<th scope="row">Background colour</th>
 			        	<td>
 			        		<input type="text" name="icon_background_colour" class="my-color-field" data-default-color="#009691" value="<?php echo esc_attr( get_option('icon_background_colour') ); ?>" />
+			        	</td>
+			        </tr>
+
+			        <tr valign="top">
+			        	<th scope="row">Text colour</th>
+			        	<td>
+			        		<input type="text" name="text_colour" class="my-color-field" data-default-color="#FFFFFF" value="<?php echo esc_attr( get_option('text_colour') ); ?>" />
+			        	</td>
+			        </tr>
+
+			        <tr valign="top">
+			        	<th scope="row">Font size</th>
+			        	<td>
+			        		<input type="text" name="text_colour" value="<?php echo esc_attr( get_option('font_size') ); ?>" />
 			        	</td>
 			        </tr>
 			         
@@ -91,7 +119,29 @@ function wpvs_plugin_options() {
 			        	</td>
 			        </tr>
 			        
-			    </table>		    
+			    </table>
+
+			    <div id="wpvs_preview">
+			    	<strong>Preview</strong>
+			    	<div class="wpvs_preview_wrapper">
+				    	<ul class="wpvs_wrapper">
+				    		<li class="wpvs_column_2 page_item page-item-178 page_item_has_children"><a href="#"><i class="fa fa-space-shuttle"></i><span>Anakin</span></a>
+								<ul class='children'>
+									<li class="page_item page-item-180 page_item_has_children"><a href="#"><i class="fa fa-diamond"></i><span>Leia</span></a>
+										<ul class='children'>
+											<li class="page_item page-item-182 page_item_has_children"><a href="#"><i class="fa fa-ship"></i><span>Kylo</span></a>
+											</li>
+										</ul>
+									</li>
+									<li class="page_item page-item-188"><a href="http://127.0.0.1:8080/wordpress/page-1/child-2/"><i class="fa fa-bolt"></i><span>Luke</span></a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+			    </div>
+
+
 
 				<?php
 
@@ -106,6 +156,8 @@ function wpvs_plugin_options() {
 # Register options
 function wpvs_register_settings() {
   register_setting( 'wpvs_option_group', 'icon_background_colour' );
+  register_setting( 'wpvs_option_group', 'text_colour' );
+  register_setting( 'wpvs_option_group', 'font_size' );
   register_setting( 'wpvs_option_group', 'use_icons' );
   register_setting( 'wpvs_option_group', 'number_of_columns' );
 }
@@ -215,8 +267,145 @@ add_action('save_post', 'wpvs_save_meta'); // save the custom fields
 
 
 
+#************************************
+#			Page Walker
+#************************************
+
+class wpvs_walker extends Walker_Page {
+
+	public function start_el( &$output, $page, $depth = 0, $args = array(), $current_page = 0 ) {
+		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
+		if ( $depth ) {
+			$indent = str_repeat( $t, $depth );
+		} else {
+			$indent = '';
+		}
+
+		$css_class = array( 'page_item', 'page-item-' . $page->ID );
+
+		if ( isset( $args['pages_with_children'][ $page->ID ] ) ) {
+			$css_class[] = 'page_item_has_children';
+		}
+
+		if ( ! empty( $current_page ) ) {
+			$_current_page = get_post( $current_page );
+			if ( $_current_page && in_array( $page->ID, $_current_page->ancestors ) ) {
+				$css_class[] = 'current_page_ancestor';
+			}
+			if ( $page->ID == $current_page ) {
+				$css_class[] = 'current_page_item';
+			} elseif ( $_current_page && $page->ID == $_current_page->post_parent ) {
+				$css_class[] = 'current_page_parent';
+			}
+		} elseif ( $page->ID == get_option('page_for_posts') ) {
+			$css_class[] = 'current_page_parent';
+		}
+
+		$css_classes = implode( ' ', apply_filters( 'page_css_class', $css_class, $page, $depth, $args, $current_page ) );
+
+		if ( '' === $page->post_title ) {
+			/* translators: %d: ID of a post */
+			$page->post_title = sprintf( __( '#%d (no title)' ), $page->ID );
+		}
+
+		$args['link_before'] = empty( $args['link_before'] ) ? '' : $args['link_before'];
+		$args['link_after'] = empty( $args['link_after'] ) ? '' : $args['link_after'];
+		
+
+		# wpvs customisation
+		$include_in_sitemap = get_post_meta( $page->ID, 'include_in_sitemap', true );
+
+		if( $include_in_sitemap === 'yes' && !is_null( $include_in_sitemap ) ) {
+			
+			# Are we using icons?
+			$use_icons = get_option( 'use_icons' );
+			$wpvs_fa_icon = $use_icons == 'yes' ? get_post_meta( $page->ID, 'wpvs_fa_icon', true ) : '';
+			$menu_icon_html = $use_icons == 'yes' ? '<i class="fa ' . $wpvs_fa_icon . '"></i>' : '';	
+
+			# How many columns?
+			$number_of_columns = get_option( 'number_of_columns' );		
+			$li_class = $depth < 1 ? 'wpvs_column_' . $number_of_columns . ' ' : '';
+
+			# Output list item
+			$output .= $indent . sprintf(
+				'<li class="' . $li_class . '%s"><a href="%s">' . $menu_icon_html . '<span>%s%s%s</span></a>',
+				$css_classes,
+				get_permalink( $page->ID ),
+				$args['link_before'],
+				/** This filter is documented in wp-includes/post-template.php */
+				apply_filters( 'the_title', $page->post_title, $page->ID ),
+				$args['link_after']
+			);
+		}
+	}
+
+	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
+		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
+		
+		$include_in_sitemap = get_post_meta( $page->ID, 'include_in_sitemap', true );
+
+		if( !$include_in_sitemap != 'yes' && !is_null( $include_in_sitemap) ) {
+			$output .= "</li>{$n}";
+		}
+	}
+
+}
+
+
+
+#************************************
+#			Shortcode
+#************************************
+
+function wpvs_shortcode( $atts ){
+
+	$wpvs_bg = get_option( 'icon_background_colour' );
+	$wpvs_text_colour = get_option( 'text_colour' ); ?>
+
+	<style>
+		
+		ul.wpvs_wrapper li a {
+			background-color: <?php echo $wpvs_bg; ?>;
+			color: <?php echo $wpvs_text_colour; ?>;
+		}
+
+		ul.wpvs_wrapper li a:hover {
+			background-color: <?php echo $wpvs_hover_bg; ?>;
+		}
+
+	</style>	
+	
+	<?php
+	$wpvs_walker = new wpvs_walker();
+
+	echo '<ul class="wpvs_wrapper">';
+
+	wp_list_pages( array(
+			'title_li' 	=> '',
+			'depth' => 6,
+			'walker' 	=> $wpvs_walker
+		)
+
+	);
+
+	echo '</ul>';
+
+}
+add_shortcode( 'wp_visual_sitemap', 'wpvs_shortcode' );
 
 
 
 
-
+$wpvs_bg = get_option( 'icon_background_colour' );

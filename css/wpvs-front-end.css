@@ -1,0 +1,92 @@
+ul.wpvs_wrapper,
+ul.wpvs_wrapper ul,
+ul.wpvs_wrapper li {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+ul.wpvs_wrapper ul {
+	padding-left: 30px;
+	margin-bottom: 30px;
+	position: relative;
+}
+
+ul.wpvs_wrapper > li {
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+ul.wpvs_wrapper > li.wpvs_column_1 {
+	width: 96%;
+}
+
+ul.wpvs_wrapper > li.wpvs_column_2 {
+	width: 45%;
+}
+
+ul.wpvs_wrapper > li.wpvs_column_3 {
+	width: 29.333333%;
+}
+
+ul.wpvs_wrapper > li.wpvs_column_4 {
+	width: 21%;
+}
+
+ul.wpvs_wrapper li a {
+	padding: 5px 10px;
+	display: inline-block;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	position: relative;
+	text-decoration: none;
+	border: 0;
+	width: 100%
+}
+
+ul.wpvs_wrapper li a > i {
+	margin-right: 5px;
+}
+
+ul.wpvs_wrapper > li ul a:before {
+	content: '';
+	display: block;
+	width: 10px;
+	border-top: 2px solid #ccc;
+	position: absolute;
+	left: -10px;
+	top: 50%;
+}
+
+ul.wpvs_wrapper > li ul li:after {
+	content: '';
+	display: block;
+	position: absolute;
+	top: -20px;
+	left: 20px;
+    border-top: 0;
+    border-left: 2px solid #ccc;
+    height: 40px;
+}
+
+ul.wpvs_wrapper > li ul li:nth-child(n+2):after {
+	content: '';
+	display: block;
+	position: absolute;
+	top: -20px;
+	left: 20px;
+    border-top: 0;
+    border-left: 2px solid #ccc;
+    bottom: 40px;
+    height: auto;
+}
+
+
+
+
+
+
+
+
