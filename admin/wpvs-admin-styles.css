@@ -42,3 +42,7 @@ input[name=font_size] {
 .wpvs_preview_wrapper ul.wpvs_wrapper li > a span.no_icons {
 	width: 100%;
 }
+
+.changing_background .wpvs_preview_wrapper ul.wpvs_wrapper li a {
+	transition: none;
+}
