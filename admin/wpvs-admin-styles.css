@@ -7,13 +7,6 @@
     vertical-align: bottom;
 }
 
-#wpvs_options_table,
-#wpvs_options_table td,
-#wpvs_options_table td p,
-#wpvs_options_table th {
-	font-size: 12px;
-}
-
 @media screen and (min-width: 700px) {
 	
 	#wpvs_options_table {
@@ -36,7 +29,16 @@
 
 .wpvs_preview_wrapper {
 	background: #FFF;
+	border-radius: 5px;
 	padding: 30px;
 	max-width: 200px;
 	margin-top: 10px;
+}
+
+input[name=font_size] {
+	width: 60px;
+}
+
+.wpvs_preview_wrapper ul.wpvs_wrapper li > a span.no_icons {
+	width: 100%;
 }

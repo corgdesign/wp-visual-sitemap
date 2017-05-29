@@ -22,6 +22,9 @@ function wpvs_enqueue_admin_scripts() {
     # admin css
     wp_enqueue_style( 'wpvs_admin_css', plugins_url('admin/wpvs-admin-styles.css', __FILE__ ));
 
+    # front end css - requried for preview panel
+    wp_enqueue_style( 'wpvs_front_end_css', plugins_url('css/wpvs-front-end.css', __FILE__ ));
+
 }
 add_action( 'admin_enqueue_scripts', 'wpvs_enqueue_admin_scripts' );
 
@@ -33,6 +36,21 @@ function wpvs_enqueue_front_end_scripts() {
 
 }
 add_action( 'wp_enqueue_scripts', 'wpvs_enqueue_front_end_scripts' );
+
+
+function load_template_styles() {
+
+  	wp_enqueue_style( 'wpvs_front_end_css', get_template_directory_uri() . 'wp-visual-sitemap/wpvs-front-end.css' );
+
+}
+
+$located = file_exists( '/wp-visual-sitemap/wpvs-front-end.css' );
+
+var_dump($located);
+
+if ( !empty( $located ) ) {
+	add_action( 'wp_enqueue_scripts', 'load_template_styles' );
+}
 
 
 function wpvs_enqueue_front_end_fontawesome() {
@@ -68,86 +86,135 @@ function wpvs_plugin_options() {
 		<form method="post" action="options.php">
 			<?php
 
-				settings_fields( 'wpvs_option_group' );
-				do_settings_sections( 'wpvs_option_group' ); ?>
+			settings_fields( 'wpvs_option_group' );
+			do_settings_sections( 'wpvs_option_group' ); ?>
 
-				<table class="form-table" id="wpvs_options_table">
-			        <tr valign="top">
-			        	<th scope="row">Background colour</th>
-			        	<td>
-			        		<input type="text" name="icon_background_colour" class="my-color-field" data-default-color="#009691" value="<?php echo esc_attr( get_option('icon_background_colour') ); ?>" />
-			        	</td>
-			        </tr>
+			<table class="form-table" id="wpvs_options_table">
+		        <tr valign="top">
+		        	<th scope="row">Background colour</th>
+		        	<td>
+		        		<input type="text" name="icon_background_colour" class="icon_background_colour" data-default-color="#009691" value="<?php echo esc_attr( get_option('icon_background_colour') ); ?>" />
+		        	</td>
+		        </tr>
 
-			        <tr valign="top">
-			        	<th scope="row">Text colour</th>
-			        	<td>
-			        		<input type="text" name="text_colour" class="my-color-field" data-default-color="#FFFFFF" value="<?php echo esc_attr( get_option('text_colour') ); ?>" />
-			        	</td>
-			        </tr>
+		        <tr valign="top">
+		        	<th scope="row">Text colour</th>
+		        	<td>
+		        		<input type="text" name="text_colour" class="text_colour" data-default-color="#FFFFFF" value="<?php echo esc_attr( get_option('text_colour') ); ?>" />
+		        	</td>
+		        </tr>
 
-			        <tr valign="top">
-			        	<th scope="row">Font size</th>
-			        	<td>
-			        		<input type="text" name="text_colour" value="<?php echo esc_attr( get_option('font_size') ); ?>" />
-			        	</td>
-			        </tr>
-			         
-			        <tr valign="top">
-			        	<th scope="row">Use icons?</th>
-			        	<td>
-			        		<input type="checkbox" name="use_icons" value="yes" <?php checked( 'yes', get_option( 'use_icons' ) ); ?> />
-			        	</td>
-			        </tr>
+		        <tr valign="top">
+		        	<th scope="row">Hover background colour</th>
+		        	<td>
+		        		<input type="text" name="hover_icon_background_colour" class="hover_icon_background_colour" data-default-color="#009691" value="<?php echo esc_attr( get_option('hover_icon_background_colour') ); ?>" />
+		        	</td>
+		        </tr>
 
-			        <tr valign="top">
-			        	<th scope="row">Number of columns</th>
-			        	<td>
-			        		
-			        		<label for="column_1">1</label>
-			        		<input type="radio" name="number_of_columns" value="1" id="column_1" <?php checked( '1', get_option( 'number_of_columns' ) ); ?> >
+		        <tr valign="top">
+		        	<th scope="row">Hover text colour</th>
+		        	<td>
+		        		<input type="text" name="hover_text_colour" class="hover_text_colour" data-default-color="#FFFFFF" value="<?php echo esc_attr( get_option('hover_text_colour') ); ?>" />
+		        	</td>
+		        </tr>
 
-			        		<label for="column_2">2</label>
-			        		<input type="radio" name="number_of_columns" value="2" id="column_2" <?php checked( '2', get_option( 'number_of_columns' ) ); ?> >
+		        <tr valign="top">
+		        	<th scope="row">Line colour</th>
+		        	<td>
+		        		<input type="text" name="line_colour" class="line_colour" data-default-color="#CCCCCC" value="<?php echo esc_attr( get_option('line_colour') ); ?>" />
+		        	</td>
+		        </tr>
 
-			        		<label for="column_3">3</label>
-			        		<input type="radio" name="number_of_columns" value="3" id="column_3" <?php checked( '3', get_option( 'number_of_columns' ) ); ?> >
+		        <tr valign="top">
+		        	<th scope="row">Font size</th>
+		        	<td>
+		        		<input type="text" name="font_size" class="font_size" value="<?php echo esc_attr( get_option('font_size') ); ?>" />
+		        	</td>
+		        </tr>
+		         
+		        <tr valign="top">
+		        	<th scope="row">Use icons?</th>
+		        	<td>
+		        		<input type="checkbox" name="use_icons" class="use_icons" value="yes" <?php checked( 'yes', get_option( 'use_icons' ) ); ?> />
+		        	</td>
+		        </tr>
 
-			        		<label for="column_4">4</label>
-			        		<input type="radio" name="number_of_columns" value="4" id="column_4" <?php checked( '4', get_option( 'number_of_columns' ) ); ?> >
+		        <tr valign="top">
+		        	<th scope="row">Number of columns</th>
+		        	<td>
+		        		
+		        		<label for="column_1">1</label>
+		        		<input type="radio" name="number_of_columns" value="1" id="column_1" <?php checked( '1', get_option( 'number_of_columns' ) ); ?> >
 
-			        	</td>
-			        </tr>
-			        
-			    </table>
+		        		<label for="column_2">2</label>
+		        		<input type="radio" name="number_of_columns" value="2" id="column_2" <?php checked( '2', get_option( 'number_of_columns' ) ); ?> >
 
-			    <div id="wpvs_preview">
-			    	<strong>Preview</strong>
-			    	<div class="wpvs_preview_wrapper">
-				    	<ul class="wpvs_wrapper">
-				    		<li class="wpvs_column_2 page_item page-item-178 page_item_has_children"><a href="#"><i class="fa fa-space-shuttle"></i><span>Anakin</span></a>
-								<ul class='children'>
-									<li class="page_item page-item-180 page_item_has_children"><a href="#"><i class="fa fa-diamond"></i><span>Leia</span></a>
-										<ul class='children'>
-											<li class="page_item page-item-182 page_item_has_children"><a href="#"><i class="fa fa-ship"></i><span>Kylo</span></a>
-											</li>
-										</ul>
-									</li>
-									<li class="page_item page-item-188"><a href="http://127.0.0.1:8080/wordpress/page-1/child-2/"><i class="fa fa-bolt"></i><span>Luke</span></a></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
+		        		<label for="column_3">3</label>
+		        		<input type="radio" name="number_of_columns" value="3" id="column_3" <?php checked( '3', get_option( 'number_of_columns' ) ); ?> >
 
-			    </div>
+		        		<label for="column_4">4</label>
+		        		<input type="radio" name="number_of_columns" value="4" id="column_4" <?php checked( '4', get_option( 'number_of_columns' ) ); ?> >
+
+		        	</td>
+		        </tr>
+		        
+		    </table>
+
+		    <div id="wpvs_preview">
+		    	<strong>Preview</strong>
+		    	<div class="wpvs_preview_wrapper">
+			    	<ul class="wpvs_wrapper">
+			    		<li class="wpvs_column_1 page_item page-item-178 page_item_has_children"><a href="#"><div class="menu_icon"><i class="fa fa-space-shuttle"></i></div><span>Anakin</span></a>
+							<ul class='children'>
+								<li class="page_item page-item-180 page_item_has_children"><a href="#"><div class="menu_icon"><i class="fa fa-diamond"></i></div><span>Leia</span></a>
+									<ul class='children'>
+										<li class="page_item page-item-182 page_item_has_children"><a href="#"><div class="menu_icon"><i class="fa fa-ship"></i></div><span>Kylo</span></a>
+										</li>
+									</ul>
+								</li>
+								<li class="page_item page-item-188"><a href="http://127.0.0.1:8080/wordpress/page-1/child-2/"><div class="menu_icon"><i class="fa fa-bolt"></i></div><span>Luke</span></a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+		    </div>
+
+			<?php
+
+			submit_button();
 
 
+			$wpvs_bg = get_option( 'icon_background_colour' );
+			$wpvs_text_colour = get_option( 'text_colour' );
 
-				<?php
+			$wpvs_hover_bg = get_option( 'hover_icon_background_colour' );
+			$wpvs_hover_text_colour = get_option( 'hover_text_colour' );
 
-				submit_button();
+			$wpvs_line_colour = get_option( 'line_colour' );
+
+			$wpvs_font_size = get_option( 'font_size' );
 
 			?>
+
+			<style>
+				
+				ul.wpvs_wrapper li > a {
+					background-color: <?php echo $wpvs_bg; ?>;
+					color: <?php echo $wpvs_text_colour; ?>;
+					font-size: <?php echo $wpvs_font_size; ?>;			
+				}
+
+				ul.wpvs_wrapper li > a:hover {
+					background-color: <?php echo $wpvs_hover_bg; ?>;
+					color: <?php echo $wpvs_hover_text_colour; ?>;
+				}
+
+				ul.wpvs_wrapper li > a,
+				ul.wpvs_wrapper > li ul li {
+					border-color: <?php echo $wpvs_line_colour; ?>;
+				}
+
+			</style>
 		</form>
 	</div>
 <?php
@@ -157,6 +224,9 @@ function wpvs_plugin_options() {
 function wpvs_register_settings() {
   register_setting( 'wpvs_option_group', 'icon_background_colour' );
   register_setting( 'wpvs_option_group', 'text_colour' );
+  register_setting( 'wpvs_option_group', 'hover_icon_background_colour' );
+  register_setting( 'wpvs_option_group', 'hover_text_colour' );
+  register_setting( 'wpvs_option_group', 'line_colour' );
   register_setting( 'wpvs_option_group', 'font_size' );
   register_setting( 'wpvs_option_group', 'use_icons' );
   register_setting( 'wpvs_option_group', 'number_of_columns' );
@@ -186,10 +256,8 @@ function wpvs_fa_picker() {
 	wp_enqueue_style( 'fa_css', plugins_url('fontawesome/css/font-awesome.min.css', __FILE__ ));
 }
 
-# Only enqueue if icons are enabled
-if ( get_option( 'use_icons' ) === 'yes' ) {
-	add_action( 'admin_enqueue_scripts', 'wpvs_fa_picker' );
-}
+add_action( 'admin_enqueue_scripts', 'wpvs_fa_picker' );
+
 
 # Register the meta box
 add_action( 'add_meta_boxes', 'wpvs_metabox' );
@@ -326,7 +394,7 @@ class wpvs_walker extends Walker_Page {
 			# Are we using icons?
 			$use_icons = get_option( 'use_icons' );
 			$wpvs_fa_icon = $use_icons == 'yes' ? get_post_meta( $page->ID, 'wpvs_fa_icon', true ) : '';
-			$menu_icon_html = $use_icons == 'yes' ? '<i class="fa ' . $wpvs_fa_icon . '"></i>' : '';	
+			$menu_icon_html = $use_icons == 'yes' ? '<div class="menu_icon"><i class="fa ' . $wpvs_fa_icon . '"></i></div>' : '';	
 
 			# How many columns?
 			$number_of_columns = get_option( 'number_of_columns' );		
@@ -372,17 +440,33 @@ class wpvs_walker extends Walker_Page {
 function wpvs_shortcode( $atts ){
 
 	$wpvs_bg = get_option( 'icon_background_colour' );
-	$wpvs_text_colour = get_option( 'text_colour' ); ?>
+	$wpvs_text_colour = get_option( 'text_colour' );
+
+	$wpvs_hover_bg = get_option( 'hover_icon_background_colour' );
+	$wpvs_hover_text_colour = get_option( 'hover_text_colour' );
+
+	$wpvs_line_colour = get_option( 'line_colour' );
+
+	$wpvs_font_size = get_option( 'font_size' );
+
+	?>
 
 	<style>
 		
-		ul.wpvs_wrapper li a {
+		ul.wpvs_wrapper li > a {
 			background-color: <?php echo $wpvs_bg; ?>;
 			color: <?php echo $wpvs_text_colour; ?>;
+			font-size: <?php echo $wpvs_font_size; ?>;			
 		}
 
-		ul.wpvs_wrapper li a:hover {
+		ul.wpvs_wrapper li > a:hover {
 			background-color: <?php echo $wpvs_hover_bg; ?>;
+			color: <?php echo $wpvs_hover_text_colour; ?>;
+		}
+
+		ul.wpvs_wrapper li > a,
+		ul.wpvs_wrapper > li ul li {
+			border-color: <?php echo $wpvs_line_colour; ?>;
 		}
 
 	</style>	
@@ -404,8 +488,3 @@ function wpvs_shortcode( $atts ){
 
 }
 add_shortcode( 'wp_visual_sitemap', 'wpvs_shortcode' );
-
-
-
-
-$wpvs_bg = get_option( 'icon_background_colour' );
