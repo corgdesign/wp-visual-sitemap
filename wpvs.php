@@ -91,48 +91,58 @@ function wpvs_plugin_options() {
 			<?php
 
 			settings_fields( 'wpvs_option_group' );
-			do_settings_sections( 'wpvs_option_group' ); ?>
+			do_settings_sections( 'wpvs_option_group' );
+
+			# Get previously set options
+			$icon_background_colour 	  = get_option( 'icon_background_colour' );
+			$text_colour 				  = get_option( 'text_colour' );
+			$hover_icon_background_colour = get_option( 'hover_icon_background_colour' );
+			$hover_text_colour 			  = get_option( 'hover_text_colour' );
+			$line_colour 				  = get_option( 'line_colour' );
+			$font_size 					  = get_option( 'font_size' );
+
+			?>
 
 			<table class="form-table" id="wpvs_options_table">
 		        <tr valign="top">
 		        	<th scope="row">Background colour</th>
 		        	<td>
-		        		<input type="text" name="icon_background_colour" class="icon_background_colour" data-default-color="#009691" value="<?php echo esc_attr( get_option('icon_background_colour') ); ?>" />
+		        		<input type="text" name="icon_background_colour" class="icon_background_colour" data-default-color="#009691" value="<?php echo empty( $icon_background_colour ) ? '#009691' : esc_attr( $icon_background_colour ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Text colour</th>
 		        	<td>
-		        		<input type="text" name="text_colour" class="text_colour" data-default-color="#FFFFFF" value="<?php echo empty( get_option('hover_icon_background_colour') ) ? '#FFFFFF' : esc_attr( get_option('text_colour') ); ?>" />
+		        		<input type="text" name="text_colour" class="text_colour" data-default-color="#FFFFFF" value="<?php echo empty( $text_colour ) ? '#FFFFFF' : esc_attr( $text_colour ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Hover background colour</th>
 		        	<td>
-		        		<input type="text" name="hover_icon_background_colour" class="hover_icon_background_colour" data-default-color="#009691" value="<?php echo empty( get_option('hover_icon_background_colour') ) ? '#009691' : esc_attr( get_option('hover_icon_background_colour') ); ?>" />
+		        		<input type="text" name="hover_icon_background_colour" class="hover_icon_background_colour" data-default-color="#CCCCCC" value="<?php echo empty( $hover_icon_background_colour ) ? '#CCCCCC' : esc_attr( $hover_icon_background_colour ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Hover text colour</th>
 		        	<td>
-		        		<input type="text" name="hover_text_colour" class="hover_text_colour" data-default-color="#FFFFFF" value="<?php echo empty( get_option('hover_text_colour') ) ? '#FFFFFF' : esc_attr( get_option('hover_text_colour') ); ?>" />
+		        		<input type="text" name="hover_text_colour" class="hover_text_colour" data-default-color="#CCCCCC" value="<?php echo empty( $hover_text_colour ) ? '#CCCCCC' : esc_attr( $hover_text_colour ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Line colour</th>
 		        	<td>
-		        		<input type="text" name="line_colour" class="line_colour" data-default-color="#CCCCCC" value="<?php echo empty( get_option('line_colour') ) ? '#CCCCCC' : esc_attr( get_option('line_colour') ); ?>" />
+		        		<input type="text" name="line_colour" class="line_colour" data-default-color="#CCCCCC" value="<?php echo empty( $line_colour ) ? '#CCCCCC' : esc_attr( $line_colour ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Font size</th>
 		        	<td>
-		        		<input type="text" name="font_size" class="font_size" value="<?php echo empty( get_option('font_size') ) ? '12px' : esc_attr( get_option('font_size') ); ?>" />
+		        		<input type="text" name="font_size" class="font_size" value="<?php echo empty( $font_size ) ? '12px' : esc_attr( $font_size ); ?>" />
 		        	</td>
 		        </tr>
 		         
@@ -222,32 +232,24 @@ function wpvs_plugin_options() {
 
 			submit_button();
 
-			# Get previously set options
-			$wpvs_bg 				= get_option( 'icon_background_colour' );
-			$wpvs_text_colour 		= get_option( 'text_colour' );
-			$wpvs_hover_bg 			= get_option( 'hover_icon_background_colour' );
-			$wpvs_hover_text_colour = get_option( 'hover_text_colour' );
-			$wpvs_line_colour 		= get_option( 'line_colour' );
-			$wpvs_font_size 		= get_option( 'font_size' );
-
 			?>
 
 			<style>
 				
 				ul.wpvs_wrapper li > a {
-					<?php if ( ! empty( $wpvs_bg ) ) { echo 'background-color: ' . $wpvs_bg . '; ' ;} ?>
-					<?php if ( ! empty( $wpvs_text_colour ) ) { echo 'color: ' . $wpvs_text_colour . '; ' ;} ?>
-					<?php if ( ! empty( $wpvs_font_size ) ) { echo 'font-size: ' . $wpvs_font_size . ';' ;} ?>			
+					<?php if ( ! empty( $icon_background_colour ) ) { echo 'background-color: ' . $icon_background_colour . '; ' ;} ?>
+					<?php if ( ! empty( $text_colour ) ) { echo 'color: ' . $text_colour . '; ' ;} ?>
+					<?php if ( ! empty( $font_size ) ) { echo 'font-size: ' . $font_size . ';' ;} ?>			
 				}
 
 				ul.wpvs_wrapper li > a:hover {
-					<?php if ( ! empty( $wpvs_hover_bg ) ) { echo 'background-color: ' . $wpvs_hover_bg . '; ' ;} ?>
-					<?php if ( ! empty( $wpvs_hover_text_colour ) ) { echo 'color: ' . $wpvs_hover_text_colour . ';' ;} ?>
+					<?php if ( ! empty( $hover_icon_background_colour ) ) { echo 'background-color: ' . $hover_icon_background_colour . '; ' ;} ?>
+					<?php if ( ! empty( $hover_text_colour ) ) { echo 'color: ' . $hover_text_colour . ';' ;} ?>
 				}
 
 				ul.wpvs_wrapper li > a,
 				ul.wpvs_wrapper > li ul li {
-					<?php if ( ! empty( $wpvs_line_colour ) ) { echo 'border-color: ' . $wpvs_line_colour . '; ' ;} ?>
+					<?php if ( ! empty( $line_colour ) ) { echo 'border-color: ' . $line_colour . '; ' ;} ?>
 				}
 
 			</style>
@@ -475,34 +477,31 @@ class wpvs_walker extends Walker_Page {
 
 function wpvs_shortcode( $atts ){
 
-	$wpvs_bg = get_option( 'icon_background_colour' );
-	$wpvs_text_colour = get_option( 'text_colour' );
-
-	$wpvs_hover_bg = get_option( 'hover_icon_background_colour' );
-	$wpvs_hover_text_colour = get_option( 'hover_text_colour' );
-
-	$wpvs_line_colour = get_option( 'line_colour' );
-
-	$wpvs_font_size = get_option( 'font_size' );
-
+	$icon_background_colour 	  = get_option( 'icon_background_colour' );
+	$text_colour 				  = get_option( 'text_colour' );
+	$hover_icon_background_colour = get_option( 'hover_icon_background_colour' );
+	$hover_text_colour 			  = get_option( 'hover_text_colour' );
+	$wpvs_line_colour 			  = get_option( 'line_colour' );
+	$font_size 					  = get_option( 'font_size' );
+	
 	?>
 
 	<style>
-		
+				
 		ul.wpvs_wrapper li > a {
-			background-color: <?php echo $wpvs_bg; ?>;
-			color: <?php echo $wpvs_text_colour; ?>;
-			font-size: <?php echo $wpvs_font_size; ?>;			
+			<?php if ( ! empty( $icon_background_colour ) ) { echo 'background-color: ' . $icon_background_colour . '; ' ;} ?>
+			<?php if ( ! empty( $text_colour ) ) { echo 'color: ' . $text_colour . '; ' ;} ?>
+			<?php if ( ! empty( $font_size ) ) { echo 'font-size: ' . $font_size . ';' ;} ?>			
 		}
 
 		ul.wpvs_wrapper li > a:hover {
-			background-color: <?php echo $wpvs_hover_bg; ?>;
-			color: <?php echo $wpvs_hover_text_colour; ?>;
+			<?php if ( ! empty( $hover_icon_background_colour ) ) { echo 'background-color: ' . $hover_icon_background_colour . '; ' ;} ?>
+			<?php if ( ! empty( $hover_text_colour ) ) { echo 'color: ' . $hover_text_colour . ';' ;} ?>
 		}
 
 		ul.wpvs_wrapper li > a,
 		ul.wpvs_wrapper > li ul li {
-			border-color: <?php echo $wpvs_line_colour; ?>;
+			<?php if ( ! empty( $line_colour ) ) { echo 'border-color: ' . $line_colour . '; ' ;} ?>
 		}
 
 	</style>	

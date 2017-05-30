@@ -55,6 +55,8 @@ ul.wpvs_wrapper > li.wpvs_column_4 {
 ul.wpvs_wrapper li a {
 	padding: 5px 10px;
 	display: table;
+	font-size: 12px;
+	background-color: #009691;
 	margin-bottom: 10px;
 	border-radius: 5px;
 	position: relative;
@@ -67,6 +69,8 @@ ul.wpvs_wrapper li a {
 }
 
 ul.wpvs_wrapper li a:hover {
+	background: #CCC;
+	color: #333;
 	box-shadow: none;
 }
 
