@@ -43,6 +43,6 @@ input[name=font_size] {
 	width: 100%;
 }
 
-.changing_background .wpvs_preview_wrapper ul.wpvs_wrapper li a {
+.changing_background ul.wpvs_wrapper li a {
 	transition: none;
 }

@@ -21,8 +21,8 @@ ul.wpvs_wrapper > li {
 
 ul.wpvs_wrapper li > a,
 ul.wpvs_wrapper > li ul li {
-	border-color: #ccc;
 	border-width: 0;
+	border-color: #ccc;	
 	min-height: 40px;
 }
 
@@ -61,16 +61,9 @@ ul.wpvs_wrapper li a {
 	text-decoration: none;
 	border-width: 0;
 	width: 100%;
-	background-color: #009691;
-	color: #FFF;
 	box-shadow: none;
 	box-sizing: border-box;
 	transition: background 0.3s, color 0.3s;
-}
-
-ul.wpvs_wrapper li > a:hover {
-	background: #CCC;
-	color: #333;
 }
 
 ul.wpvs_wrapper li a:hover {
