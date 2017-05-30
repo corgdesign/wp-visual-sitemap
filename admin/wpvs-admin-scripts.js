@@ -1,7 +1,7 @@
-jQuery(document).ready(function($){
+jQuery( document ).ready( function($) {
     
 	// Update icon
-	$( '.iconpicker-item' ).on('click', function(){
+	$( '.iconpicker-item' ).on( 'click', function() {
 		
 		var chosen_icon =  $( this ).children( 'i' ).attr( 'class' );
 
@@ -11,56 +11,66 @@ jQuery(document).ready(function($){
 	});
 
 	// Initiate the colorpicker
-    $('.icon_background_colour, .text_colour, .hover_icon_background_colour, .hover_text_colour, .line_colour').wpColorPicker();
+    $( '.icon_background_colour, .text_colour, .hover_icon_background_colour, .hover_text_colour, .line_colour' ).wpColorPicker();
 
 
     // Update preview styles, when user moves mouse over the color picker
 
     // Hide icons if not selected
-    if ( $('.use_icons:checked').length < 1 ) {
-    	$('.menu_icon').hide();
-    	$('.wpvs_preview_wrapper ul.wpvs_wrapper li > a span').addClass('no_icons');
+    if ( $( '.use_icons:checked' ).length < 1 ) {
+    	$( '.menu_icon' ).hide();
+    	$( '.wpvs_preview_wrapper ul.wpvs_wrapper li > a span' ).addClass( 'no_icons' );
     }
 
     // Background colour
-    $('.icon_background_colour').parent('.wp-picker-input-wrap').siblings('.wp-picker-holder').mousemove(function(){
+    $( '.icon_background_colour' ).parent( '.wp-picker-input-wrap') .siblings( '.wp-picker-holder' ).mousemove( function() {
     	
-    	var new_colour = $('.icon_background_colour').val();
+    	var new_colour = $( '.icon_background_colour' ).val();
 
-    	$('ul.wpvs_wrapper li > a').css('background-color', new_colour);
+    	$( 'ul.wpvs_wrapper li > a' ).css( 'background-color' , new_colour );
+
+        $( 'body' ).addClass( 'changing_background' );
 
     });
 
     // Text colour
-    $('.text_colour').parent('.wp-picker-input-wrap').siblings('.wp-picker-holder').mousemove(function(){
+    $( '.text_colour' ).parent( '.wp-picker-input-wrap' ).siblings( '.wp-picker-holder' ).mousemove( function() {
     	
-    	var new_colour = $('.text_colour').val();
+    	var new_colour = $( '.text_colour' ).val();
 
-    	$('ul.wpvs_wrapper li > a').css('color', new_colour);
+    	$( 'ul.wpvs_wrapper li > a' ).css( 'color' , new_colour );
+
+        $( 'body' ).addClass( 'changing_background' );
+
+    });
+
+    $( '.text_colour, .icon_background_colour' ).parent( '.wp-picker-input-wrap' ).siblings( '.wp-picker-holder' ).mouseout( function() {
+
+        $( 'body' ).removeClass( 'changing_background' );
 
     });
 
     // Hover background and text colours
-    $('.hover_icon_background_colour, .hover_text_colour').parent('.wp-picker-input-wrap').siblings('.wp-picker-holder').mousemove(function(){
+    $( '.hover_icon_background_colour, .hover_text_colour' ).parent( '.wp-picker-input-wrap' ).siblings( '.wp-picker-holder' ).mousemove( function() {
     	
-    	$('ul.wpvs_wrapper li > a').hover(
+    	$( 'ul.wpvs_wrapper li > a' ).hover(
 
     		// handlerIn
-    		function(){		
-	    		var background_colour = $('.hover_icon_background_colour').val();
-	    		var text_colour = $('.hover_text_colour').val();
-	    		$(this).css({
+    		function() {		
+	    		var background_colour = $( '.hover_icon_background_colour' ).val();
+	    		var text_colour = $( '.hover_text_colour' ).val();
+	    		$( this ).css({
 	    			'color' : text_colour,
 	    			'background-color' : background_colour
 	    		});
     		} ,
 
     		// handlerOut
-    		function(){
+    		function() {
     		
-	    		var background_colour = $('.icon_background_colour').val();
-	    		var text_colour = $('.text_colour').val();
-	    		$(this).css({
+	    		var background_colour = $( '.icon_background_colour' ).val();
+	    		var text_colour = $( '.text_colour' ).val();
+	    		$( this ).css({
 	    			'color' : text_colour,
 	    			'background-color' : background_colour
 	    		});
@@ -72,28 +82,28 @@ jQuery(document).ready(function($){
 	});
 
 	// Line colour
-    $('.line_colour').parent('.wp-picker-input-wrap').siblings('.wp-picker-holder').mousemove(function(){
+    $( '.line_colour' ).parent( '.wp-picker-input-wrap' ).siblings( '.wp-picker-holder' ).mousemove( function() {
     	
-    	var new_colour = $('.line_colour').val();
+    	var new_colour = $( '.line_colour' ).val();
 
-    	$('ul.wpvs_wrapper li > a, ul.wpvs_wrapper > li ul li').css('border-color', new_colour);
+    	$( 'ul.wpvs_wrapper li > a, ul.wpvs_wrapper > li ul li' ).css( 'border-color' , new_colour );
 
     });
 
     // Font size colour
-    $('.font_size').change(function(){
+    $( '.font_size' ).change( function() {
     	
-    	var new_text_size = $('.font_size').val();
+    	var new_text_size = $( '.font_size' ).val();
 
-    	$('ul.wpvs_wrapper li > a').css('font-size', new_text_size);
+    	$( 'ul.wpvs_wrapper li > a' ).css( 'font-size' , new_text_size );
 
     });
 
     // Font size colour
-    $('.use_icons').change(function(){
+    $( '.use_icons' ).change( function() {
     	
-    	$('.menu_icon').toggle();
-    	$('.wpvs_preview_wrapper ul.wpvs_wrapper li > a span').toggleClass('no_icons');
+    	$( '.menu_icon' ).toggle();
+    	$( '.wpvs_preview_wrapper ul.wpvs_wrapper li > a span' ).toggleClass( 'no_icons' );
 
     });
 

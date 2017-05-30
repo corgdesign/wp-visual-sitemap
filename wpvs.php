@@ -28,20 +28,20 @@ function wpvs_enqueue_admin_scripts() {
     wp_enqueue_style( 'wpvs_front_end_css', plugins_url('css/wpvs-front-end.css', __FILE__ ));
 
 }
-add_action( 'admin_enqueue_scripts', 'wpvs_enqueue_admin_scripts' );
+add_action( 'admin_enqueue_scripts' , 'wpvs_enqueue_admin_scripts' );
 
 
 function wpvs_enqueue_front_end_scripts() {
 
 	# front end css
-	wp_enqueue_style( 'wpvs_front_end_css', plugins_url('css/wpvs-front-end.css', __FILE__ ));
+	wp_enqueue_style( 'wpvs_front_end_css' , plugins_url('css/wpvs-front-end.css' , __FILE__ ));
 	
 }
 
 function wpvs_enqueue_front_end_override_scripts() {
 
 	# front end css in template
-	wp_enqueue_style( 'wpvs_front_end_css', get_template_directory_uri() . '/wp-visual-sitemap/wpvs-front-end.css' );
+	wp_enqueue_style( 'wpvs_front_end_css' , get_template_directory_uri() . '/wp-visual-sitemap/wpvs-front-end.css' );
 
 }
 
@@ -49,23 +49,23 @@ function wpvs_enqueue_front_end_override_scripts() {
 $overide = file_exists( get_template_directory() . '/wp-visual-sitemap/wpvs-front-end.css' );
 if ( $overide ) {
 
-	add_action( 'wp_enqueue_scripts', 'wpvs_enqueue_front_end_override_scripts' );
+	add_action( 'wp_enqueue_scripts' , 'wpvs_enqueue_front_end_override_scripts' );
 
 } else {
 
-	add_action( 'wp_enqueue_scripts', 'wpvs_enqueue_front_end_scripts' );
+	add_action( 'wp_enqueue_scripts' , 'wpvs_enqueue_front_end_scripts' );
 
 }
 
 function wpvs_enqueue_front_end_fontawesome() {
 
 	# font awesome
-	wp_enqueue_style( 'wpvs_front_end_fontawesome_css', plugins_url('fontawesome/css/font-awesome.min.css', __FILE__ ));
+	wp_enqueue_style( 'wpvs_front_end_fontawesome_css' , plugins_url('fontawesome/css/font-awesome.min.css' , __FILE__ ));
 
 }
 
 if ( get_option( 'use_icons' ) === 'yes' ) {
-	add_action( 'wp_enqueue_scripts', 'wpvs_enqueue_front_end_fontawesome' );
+	add_action( 'wp_enqueue_scripts' , 'wpvs_enqueue_front_end_fontawesome' );
 }
 
 
@@ -75,7 +75,7 @@ if ( get_option( 'use_icons' ) === 'yes' ) {
 
 # Add an admin menu
 function wpvs_admin_menu() {
-	add_options_page( 'WP Visual Sitemap Settings', 'WP Visual Sitemap', 'manage_options', 'wpvs_settings', 'wpvs_plugin_options' );
+	add_options_page( 'WP Visual Sitemap Settings' , 'WP Visual Sitemap' , 'manage_options' , 'wpvs_settings' , 'wpvs_plugin_options' );
 }
 
 # Output the options
@@ -104,35 +104,35 @@ function wpvs_plugin_options() {
 		        <tr valign="top">
 		        	<th scope="row">Text colour</th>
 		        	<td>
-		        		<input type="text" name="text_colour" class="text_colour" data-default-color="#FFFFFF" value="<?php echo esc_attr( get_option('text_colour') ); ?>" />
+		        		<input type="text" name="text_colour" class="text_colour" data-default-color="#FFFFFF" value="<?php echo empty( get_option('hover_icon_background_colour') ) ? '#FFFFFF' : esc_attr( get_option('text_colour') ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Hover background colour</th>
 		        	<td>
-		        		<input type="text" name="hover_icon_background_colour" class="hover_icon_background_colour" data-default-color="#009691" value="<?php echo esc_attr( get_option('hover_icon_background_colour') ); ?>" />
+		        		<input type="text" name="hover_icon_background_colour" class="hover_icon_background_colour" data-default-color="#009691" value="<?php echo empty( get_option('hover_icon_background_colour') ) ? '#009691' : esc_attr( get_option('hover_icon_background_colour') ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Hover text colour</th>
 		        	<td>
-		        		<input type="text" name="hover_text_colour" class="hover_text_colour" data-default-color="#FFFFFF" value="<?php echo esc_attr( get_option('hover_text_colour') ); ?>" />
+		        		<input type="text" name="hover_text_colour" class="hover_text_colour" data-default-color="#FFFFFF" value="<?php echo empty( get_option('hover_text_colour') ) ? '#FFFFFF' : esc_attr( get_option('hover_text_colour') ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Line colour</th>
 		        	<td>
-		        		<input type="text" name="line_colour" class="line_colour" data-default-color="#CCCCCC" value="<?php echo esc_attr( get_option('line_colour') ); ?>" />
+		        		<input type="text" name="line_colour" class="line_colour" data-default-color="#CCCCCC" value="<?php echo empty( get_option('line_colour') ) ? '#CCCCCC' : esc_attr( get_option('line_colour') ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Font size</th>
 		        	<td>
-		        		<input type="text" name="font_size" class="font_size" value="<?php echo esc_attr( get_option('font_size') ); ?>" />
+		        		<input type="text" name="font_size" class="font_size" value="<?php echo empty( get_option('font_size') ) ? '12px' : esc_attr( get_option('font_size') ); ?>" />
 		        	</td>
 		        </tr>
 		         
@@ -164,19 +164,54 @@ function wpvs_plugin_options() {
 		        
 		    </table>
 
+		    <?php 
+		    	# For the banter, create some family trees for the preview
+		    	$random_number = rand( 1, 4 );
+
+		    	switch ( $random_number ) {
+		    		case '1':
+		    			$parent = 'Vito';
+				    	$child_1 = 'Michael';
+				    	$child_2 = 'Frederico';
+				    	$grandchild = 'Mary';
+		    			break;
+
+		    		case '2':
+		    			$parent = 'Anakin';
+				    	$child_1 = 'Leia';
+				    	$child_2 = 'Luke';
+				    	$grandchild = 'Kylo';
+		    			break;
+
+		    		case '3':
+		    			$parent = 'Joe';
+		    			$child_1 = 'Michael';
+				    	$child_2 = 'Janet';
+				    	$grandchild = 'Prince';
+		    			break;
+
+		    		case '4':
+		    			$parent = 'Henry';
+		    			$child_1 = 'Peter';
+				    	$child_2 = 'Jane';
+				    	$grandchild = 'Bridget';
+		    			break;
+		    	}
+		    ?>
+
 		    <div id="wpvs_preview">
 		    	<strong>Preview</strong>
 		    	<div class="wpvs_preview_wrapper">
 			    	<ul class="wpvs_wrapper">
-			    		<li class="wpvs_column_1 page_item page-item-178 page_item_has_children"><a href="#"><div class="menu_icon"><i class="fa fa-space-shuttle"></i></div><span>Anakin</span></a>
+			    		<li class="wpvs_column_1 page_item page-item-178 page_item_has_children"><a href="#"><div class="menu_icon"><i class="fa fa-space-shuttle"></i></div><span><?php echo $parent; ?></span></a>
 							<ul class='children'>
-								<li class="page_item page-item-180 page_item_has_children"><a href="#"><div class="menu_icon"><i class="fa fa-diamond"></i></div><span>Leia</span></a>
+								<li class="page_item page-item-180 page_item_has_children"><a href="#"><div class="menu_icon"><i class="fa fa-diamond"></i></div><span><?php echo $child_1; ?></span></a>
 									<ul class='children'>
-										<li class="page_item page-item-182 page_item_has_children"><a href="#"><div class="menu_icon"><i class="fa fa-ship"></i></div><span>Kylo</span></a>
+										<li class="page_item page-item-182 page_item_has_children"><a href="#"><div class="menu_icon"><i class="fa fa-ship"></i></div><span><?php echo $grandchild; ?></span></a>
 										</li>
 									</ul>
 								</li>
-								<li class="page_item page-item-188"><a href="http://127.0.0.1:8080/wordpress/page-1/child-2/"><div class="menu_icon"><i class="fa fa-bolt"></i></div><span>Luke</span></a></li>
+								<li class="page_item page-item-188"><a href="http://127.0.0.1:8080/wordpress/page-1/child-2/"><div class="menu_icon"><i class="fa fa-bolt"></i></div><span><?php echo $child_2; ?></span></a></li>
 							</ul>
 						</li>
 					</ul>
@@ -200,19 +235,19 @@ function wpvs_plugin_options() {
 			<style>
 				
 				ul.wpvs_wrapper li > a {
-					background-color: <?php echo $wpvs_bg; ?>;
-					color: <?php echo $wpvs_text_colour; ?>;
-					font-size: <?php echo $wpvs_font_size; ?>;			
+					<?php if ( ! empty( $wpvs_bg ) ) { echo 'background-color: ' . $wpvs_bg . '; ' ;} ?>
+					<?php if ( ! empty( $wpvs_text_colour ) ) { echo 'color: ' . $wpvs_text_colour . '; ' ;} ?>
+					<?php if ( ! empty( $wpvs_font_size ) ) { echo 'font-size: ' . $wpvs_font_size . ';' ;} ?>			
 				}
 
 				ul.wpvs_wrapper li > a:hover {
-					background-color: <?php echo $wpvs_hover_bg; ?>;
-					color: <?php echo $wpvs_hover_text_colour; ?>;
+					<?php if ( ! empty( $wpvs_hover_bg ) ) { echo 'background-color: ' . $wpvs_hover_bg . '; ' ;} ?>
+					<?php if ( ! empty( $wpvs_hover_text_colour ) ) { echo 'color: ' . $wpvs_hover_text_colour . ';' ;} ?>
 				}
 
 				ul.wpvs_wrapper li > a,
 				ul.wpvs_wrapper > li ul li {
-					border-color: <?php echo $wpvs_line_colour; ?>;
+					<?php if ( ! empty( $wpvs_line_colour ) ) { echo 'border-color: ' . $wpvs_line_colour . '; ' ;} ?>
 				}
 
 			</style>
@@ -223,19 +258,19 @@ function wpvs_plugin_options() {
 
 # Register options
 function wpvs_register_settings() {
-  register_setting( 'wpvs_option_group', 'icon_background_colour' );
-  register_setting( 'wpvs_option_group', 'text_colour' );
-  register_setting( 'wpvs_option_group', 'hover_icon_background_colour' );
-  register_setting( 'wpvs_option_group', 'hover_text_colour' );
-  register_setting( 'wpvs_option_group', 'line_colour' );
-  register_setting( 'wpvs_option_group', 'font_size' );
-  register_setting( 'wpvs_option_group', 'use_icons' );
-  register_setting( 'wpvs_option_group', 'number_of_columns' );
+  register_setting( 'wpvs_option_group' , 'icon_background_colour' );
+  register_setting( 'wpvs_option_group' , 'text_colour' );
+  register_setting( 'wpvs_option_group' , 'hover_icon_background_colour' );
+  register_setting( 'wpvs_option_group' , 'hover_text_colour' );
+  register_setting( 'wpvs_option_group' , 'line_colour' );
+  register_setting( 'wpvs_option_group' , 'font_size' );
+  register_setting( 'wpvs_option_group' , 'use_icons' );
+  register_setting( 'wpvs_option_group' , 'number_of_columns' );
 }
 
 if ( is_admin() ) {
-	add_action( 'admin_menu', 'wpvs_admin_menu' );
-	add_action( 'admin_init', 'wpvs_register_settings' );
+	add_action( 'admin_menu' , 'wpvs_admin_menu' );
+	add_action( 'admin_init' , 'wpvs_register_settings' );
 }
 
 
@@ -247,56 +282,56 @@ if ( is_admin() ) {
 function wpvs_color_picker( $hook_suffix ) {
     wp_enqueue_style( 'wp-color-picker' );
 }
-add_action( 'admin_enqueue_scripts', 'wpvs_color_picker' );
+add_action( 'admin_enqueue_scripts' , 'wpvs_color_picker' );
 
 
 # Enqueue Font Awesome picker
 function wpvs_fa_picker() {
-	wp_enqueue_script( 'fa_picker_js', plugins_url('fontawesome/iconpicker/js/fontawesome-iconpicker.min.js', __FILE__ ), array( 'jquery' ), false, true );
-	wp_enqueue_style( 'fa_picker_css', plugins_url('fontawesome/iconpicker/css/fontawesome-iconpicker.min.css', __FILE__ ));
-	wp_enqueue_style( 'fa_css', plugins_url('fontawesome/css/font-awesome.min.css', __FILE__ ));
+	wp_enqueue_script( 'fa_picker_js' , plugins_url( 'fontawesome/iconpicker/js/fontawesome-iconpicker.min.js' ,  __FILE__  ), array( 'jquery' ) , false , true );
+	wp_enqueue_style( 'fa_picker_css' , plugins_url( 'fontawesome/iconpicker/css/fontawesome-iconpicker.min.css' ,  __FILE__  ) );
+	wp_enqueue_style( 'fa_css' , plugins_url( 'fontawesome/css/font-awesome.min.css' ,  __FILE__  ) );
 }
 
-add_action( 'admin_enqueue_scripts', 'wpvs_fa_picker' );
+add_action( 'admin_enqueue_scripts' , 'wpvs_fa_picker' );
 
 
 # Register the meta box
-add_action( 'add_meta_boxes', 'wpvs_metabox' );
+add_action( 'add_meta_boxes' , 'wpvs_metabox' );
 function wpvs_metabox() {
-	add_meta_box('wpvs_page_settings', 'WP Visual Sitemap', 'wpvs_page_settings', 'page', 'side', 'default');
+	add_meta_box( 'wpvs_page_settings' , 'WP Visual Sitemap' , 'wpvs_page_settings' , 'page' , 'side' , 'default' );
 }
 
 # Add the fields
-function wpvs_page_settings($post) {
+function wpvs_page_settings( $post ) {
 	
-	wp_nonce_field( basename( __FILE__ ), 'wpvs_nonce' );
+	wp_nonce_field( basename( __FILE__ ) , 'wpvs_nonce' );
     $wpvs_stored_meta = get_post_meta( $post->ID ); ?>
 
 	<p>
 	    <label for="include_in_sitemap">
-	        <span class="wpvs_label"><?php _e( 'Include in sitemap?', 'wpvs-textdomain' )?></span>
+	        <span class="wpvs_label"><?php _e( 'Include in sitemap?' , 'wpvs-textdomain' ) ?></span>
 	    </label>
 	</p>
-	<input type="checkbox" name="include_in_sitemap" id="include_in_sitemap" value="yes" <?php if ( isset ( $wpvs_stored_meta['include_in_sitemap'] ) ) checked( $wpvs_stored_meta['include_in_sitemap'][0], 'yes' ); ?>>
+	<input type="checkbox" name="include_in_sitemap" id="include_in_sitemap" value="yes" <?php if ( isset ( $wpvs_stored_meta[ 'include_in_sitemap' ] ) ) checked( $wpvs_stored_meta[ 'include_in_sitemap' ][ 0 ] , 'yes' ); ?>>
 
 <?php
 
 	if ( get_option( 'use_icons' ) === 'yes' ) { ?>
 	
 	<p>
-		<span class="wpvs_label"><label for="wpvs_fa_icon"><?php _e( 'Page icon', 'wpvs-textdomain' )?></label></span>
+		<span class="wpvs_label"><label for="wpvs_fa_icon"><?php _e( 'Page icon' , 'wpvs-textdomain' ) ?></label></span>
 	</p>
 
 	<?php 
 	
-	echo isset ( $wpvs_stored_meta['wpvs_fa_icon'] ) ? '<i id="wpvs_fa_chosen_icon" class="fa ' . $wpvs_stored_meta['wpvs_fa_icon'][0] . '"></i>' : '<i id="wpvs_fa_chosen_icon"></i>';
+	echo isset ( $wpvs_stored_meta[ 'wpvs_fa_icon' ] ) ? '<i id="wpvs_fa_chosen_icon" class="fa ' . $wpvs_stored_meta[ 'wpvs_fa_icon' ][ 0 ] . '"></i>' : '<i id="wpvs_fa_chosen_icon"></i>';
 
 	?>
-    <input type="text" name="wpvs_fa_icon" id="wpvs_fa_icon" data-input-search="true" placeholder="Search for icon..." value="<?php if ( isset ( $wpvs_stored_meta['wpvs_fa_icon'] ) ) echo $wpvs_stored_meta['wpvs_fa_icon'][0]; ?>">
+    <input type="text" name="wpvs_fa_icon" id="wpvs_fa_icon" data-input-search="true" placeholder="Search for icon..." value="<?php if ( isset ( $wpvs_stored_meta['wpvs_fa_icon'] ) ) echo $wpvs_stored_meta[ 'wpvs_fa_icon' ][ 0 ]; ?>">
 
     <script type="text/javascript">
-    	jQuery(document).ready(function($){
-	    	$('#wpvs_fa_icon').iconpicker();
+    	jQuery( document ).ready( function( $ ) {
+	    	$( '#wpvs_fa_icon' ).iconpicker();
     	});
     </script>
 	
@@ -306,12 +341,12 @@ function wpvs_page_settings($post) {
 }
 
 # Save the data
-function wpvs_save_meta($post_id) {
+function wpvs_save_meta( $post_id ) {
 	
 	# Checks save status
     $is_autosave = wp_is_post_autosave( $post_id );
     $is_revision = wp_is_post_revision( $post_id );
-    $is_valid_nonce = ( isset( $_POST[ 'wpvs_nonce' ] ) && wp_verify_nonce( $_POST[ 'wpvs_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce = ( isset( $_POST[ 'wpvs_nonce' ] ) && wp_verify_nonce( $_POST[ 'wpvs_nonce' ] , basename( __FILE__ ) ) ) ? 'true' : 'false';
  
     # Exits script depending on save status
     if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
@@ -320,19 +355,19 @@ function wpvs_save_meta($post_id) {
 
 	# Checks for input and saves
 	if( isset( $_POST[ 'include_in_sitemap' ] ) ) {
-	    update_post_meta( $post_id, 'include_in_sitemap', 'yes' );
+	    update_post_meta( $post_id , 'include_in_sitemap' , 'yes' );
 	} else {
-	    update_post_meta( $post_id, 'include_in_sitemap', '' );
+	    update_post_meta( $post_id , 'include_in_sitemap' , '' );
 	}
 
 	// Checks for input and sanitizes/saves if needed
     if( isset( $_POST[ 'wpvs_fa_icon' ] ) ) {
-        update_post_meta( $post_id, 'wpvs_fa_icon', $_POST[ 'wpvs_fa_icon' ] );
+        update_post_meta( $post_id , 'wpvs_fa_icon' , $_POST[ 'wpvs_fa_icon' ] );
     }
 
 }
 
-add_action('save_post', 'wpvs_save_meta'); // save the custom fields
+add_action( 'save_post' , 'wpvs_save_meta' ); // save the custom fields
 
 
 
@@ -394,7 +429,7 @@ class wpvs_walker extends Walker_Page {
 			
 			# Are we using icons?
 			$use_icons = get_option( 'use_icons' );
-			$wpvs_fa_icon = $use_icons == 'yes' ? get_post_meta( $page->ID, 'wpvs_fa_icon', true ) : '';
+			$wpvs_fa_icon = $use_icons == 'yes' ? get_post_meta( $page->ID , 'wpvs_fa_icon' , true ) : '';
 			$menu_icon_html = $use_icons == 'yes' ? '<div class="menu_icon"><i class="fa ' . $wpvs_fa_icon . '"></i></div>' : '';	
 
 			# How many columns?
@@ -414,8 +449,8 @@ class wpvs_walker extends Walker_Page {
 		}
 	}
 
-	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
-		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
+	public function end_el( &$output , $page , $depth = 0 , $args = array() ) {
+		if ( isset( $args[ 'item_spacing' ] ) && 'preserve' === $args[ 'item_spacing' ] ) {
 			$t = "\t";
 			$n = "\n";
 		} else {
