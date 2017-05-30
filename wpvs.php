@@ -8,7 +8,7 @@ License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
-defined( 'ABSPATH' );
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 #************************************
 #		CSS and javascript
@@ -32,26 +32,28 @@ add_action( 'admin_enqueue_scripts', 'wpvs_enqueue_admin_scripts' );
 function wpvs_enqueue_front_end_scripts() {
 
 	# front end css
-    wp_enqueue_style( 'wpvs_front_end_css', plugins_url('css/wpvs-front-end.css', __FILE__ ));
-
-}
-add_action( 'wp_enqueue_scripts', 'wpvs_enqueue_front_end_scripts' );
-
-
-function load_template_styles() {
-
-  	wp_enqueue_style( 'wpvs_front_end_css', get_template_directory_uri() . 'wp-visual-sitemap/wpvs-front-end.css' );
-
+	wp_enqueue_style( 'wpvs_front_end_css', plugins_url('css/wpvs-front-end.css', __FILE__ ));
+	
 }
 
-$located = file_exists( '/wp-visual-sitemap/wpvs-front-end.css' );
+function wpvs_enqueue_front_end_override_scripts() {
 
-var_dump($located);
+	# front end css in template
+	wp_enqueue_style( 'wpvs_front_end_css', get_template_directory_uri() . '/wp-visual-sitemap/wpvs-front-end.css' );
 
-if ( !empty( $located ) ) {
-	add_action( 'wp_enqueue_scripts', 'load_template_styles' );
 }
 
+# Check whether to load template or plugin CSS
+$overide = file_exists( get_template_directory() . '/wp-visual-sitemap/wpvs-front-end.css' );
+if ( $overide ) {
+
+	add_action( 'wp_enqueue_scripts', 'wpvs_enqueue_front_end_override_scripts' );
+
+} else {
+
+	add_action( 'wp_enqueue_scripts', 'wpvs_enqueue_front_end_scripts' );
+
+}
 
 function wpvs_enqueue_front_end_fontawesome() {
 
@@ -183,16 +185,13 @@ function wpvs_plugin_options() {
 
 			submit_button();
 
-
-			$wpvs_bg = get_option( 'icon_background_colour' );
-			$wpvs_text_colour = get_option( 'text_colour' );
-
-			$wpvs_hover_bg = get_option( 'hover_icon_background_colour' );
+			# Get previously set options
+			$wpvs_bg 				= get_option( 'icon_background_colour' );
+			$wpvs_text_colour 		= get_option( 'text_colour' );
+			$wpvs_hover_bg 			= get_option( 'hover_icon_background_colour' );
 			$wpvs_hover_text_colour = get_option( 'hover_text_colour' );
-
-			$wpvs_line_colour = get_option( 'line_colour' );
-
-			$wpvs_font_size = get_option( 'font_size' );
+			$wpvs_line_colour 		= get_option( 'line_colour' );
+			$wpvs_font_size 		= get_option( 'font_size' );
 
 			?>
 

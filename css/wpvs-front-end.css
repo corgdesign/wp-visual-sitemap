@@ -21,8 +21,8 @@ ul.wpvs_wrapper > li {
 
 ul.wpvs_wrapper li > a,
 ul.wpvs_wrapper > li ul li {
-	border-color: #ccc;
-	border: 0;
+	border-width: 0;
+	border-color: #ccc;	
 	min-height: 40px;
 }
 
@@ -59,7 +59,7 @@ ul.wpvs_wrapper li a {
 	border-radius: 5px;
 	position: relative;
 	text-decoration: none;
-	border: 0;
+	border-width: 0;
 	width: 100%;
 	box-shadow: none;
 	box-sizing: border-box;
