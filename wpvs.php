@@ -38,13 +38,14 @@ function wpvs_enqueue_front_end_scripts() {
 add_action( 'wp_enqueue_scripts', 'wpvs_enqueue_front_end_scripts' );
 
 
+# User has option to include their own CSS. Check if it exists then enqueue that bad boy!
 function load_template_styles() {
 
   	wp_enqueue_style( 'wpvs_front_end_css', get_template_directory_uri() . 'wp-visual-sitemap/wpvs-front-end.css' );
 
 }
 
-$located = file_exists( '/wp-visual-sitemap/wpvs-front-end.css' );
+$located = file_exists( TEMPLATEPATH . '/wp-visual-sitemap/wpvs-front-end.css' );
 
 if ( !empty( $located ) ) {
 	add_action( 'wp_enqueue_scripts', 'load_template_styles' );
