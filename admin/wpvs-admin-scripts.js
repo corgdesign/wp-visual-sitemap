@@ -11,21 +11,21 @@ jQuery( document ).ready( function($) {
 	});
 
 	// Initiate the colorpicker
-    $( '.icon_background_colour, .text_colour, .hover_icon_background_colour, .hover_text_colour, .line_colour' ).wpColorPicker();
+    $( '.wpvs_icon_background_colour, .wpvs_text_colour, .wpvs_hover_icon_background_colour, .wpvs_hover_text_colour, .wpvs_line_colour' ).wpColorPicker();
 
 
     // Update preview styles, when user moves mouse over the color picker
 
     // Hide icons if not selected
-    if ( $( '.use_icons:checked' ).length < 1 ) {
+    if ( $( '.wpvs_use_icons:checked' ).length < 1 ) {
     	$( '.menu_icon' ).hide();
     	$( '.wpvs_preview_wrapper ul.wpvs_wrapper li > a span' ).addClass( 'no_icons' );
     }
 
     // Background colour
-    $( '.icon_background_colour' ).parent( '.wp-picker-input-wrap') .siblings( '.wp-picker-holder' ).mousemove( function() {
+    $( '.wpvs_icon_background_colour' ).parent( '.wp-picker-input-wrap') .siblings( '.wp-picker-holder' ).mousemove( function() {
     	
-    	var new_colour = $( '.icon_background_colour' ).val();
+    	var new_colour = $( '.wpvs_icon_background_colour' ).val();
 
     	$( 'ul.wpvs_wrapper li > a' ).css( 'background-color' , new_colour );
 
@@ -34,7 +34,7 @@ jQuery( document ).ready( function($) {
     });
 
     // Text colour
-    $( '.text_colour' ).parent( '.wp-picker-input-wrap' ).siblings( '.wp-picker-holder' ).mousemove( function() {
+    $( '.wpvs_text_colour' ).parent( '.wp-picker-input-wrap' ).siblings( '.wp-picker-holder' ).mousemove( function() {
     	
     	var new_colour = $( '.text_colour' ).val();
 
@@ -44,21 +44,21 @@ jQuery( document ).ready( function($) {
 
     });
 
-    $( '.text_colour, .icon_background_colour' ).parent( '.wp-picker-input-wrap' ).siblings( '.wp-picker-holder' ).mouseout( function() {
+    $( '.wpvs_text_colour, .wpvs_icon_background_colour' ).parent( '.wp-picker-input-wrap' ).siblings( '.wp-picker-holder' ).mouseout( function() {
 
         $( 'body' ).removeClass( 'changing_background' );
 
     });
 
     // Hover background and text colours
-    $( '.hover_icon_background_colour, .hover_text_colour' ).parent( '.wp-picker-input-wrap' ).siblings( '.wp-picker-holder' ).mousemove( function() {
+    $( '.wpvs_hover_icon_background_colour, .wpvs_hover_text_colour' ).parent( '.wp-picker-input-wrap' ).siblings( '.wp-picker-holder' ).mousemove( function() {
     	
     	$( 'ul.wpvs_wrapper li > a' ).hover(
 
     		// handlerIn
     		function() {		
-	    		var background_colour = $( '.hover_icon_background_colour' ).val();
-	    		var text_colour = $( '.hover_text_colour' ).val();
+	    		var background_colour = $( '.wpvs_hover_icon_background_colour' ).val();
+	    		var text_colour = $( '.wpvs_hover_text_colour' ).val();
 	    		$( this ).css({
 	    			'color' : text_colour,
 	    			'background-color' : background_colour
@@ -68,8 +68,8 @@ jQuery( document ).ready( function($) {
     		// handlerOut
     		function() {
     		
-	    		var background_colour = $( '.icon_background_colour' ).val();
-	    		var text_colour = $( '.text_colour' ).val();
+	    		var background_colour = $( '.wpvs_icon_background_colour' ).val();
+	    		var text_colour = $( '.wpvs_text_colour' ).val();
 	    		$( this ).css({
 	    			'color' : text_colour,
 	    			'background-color' : background_colour
@@ -82,16 +82,16 @@ jQuery( document ).ready( function($) {
 	});
 
 	// Line colour
-    $( '.line_colour' ).parent( '.wp-picker-input-wrap' ).siblings( '.wp-picker-holder' ).mousemove( function() {
+    $( '.wpvs_line_colour' ).parent( '.wp-picker-input-wrap' ).siblings( '.wp-picker-holder' ).mousemove( function() {
     	
-    	var new_colour = $( '.line_colour' ).val();
+    	var new_colour = $( '.wpvs_line_colour' ).val();
 
     	$( 'ul.wpvs_wrapper li > a, ul.wpvs_wrapper > li ul li' ).css( 'border-color' , new_colour );
 
     });
 
     // Font size colour
-    $( '.font_size' ).change( function() {
+    $( '.wpvs_font_size' ).change( function() {
     	
     	var new_text_size = $( '.font_size' ).val();
 
@@ -100,9 +100,9 @@ jQuery( document ).ready( function($) {
     });
 
     // Font size colour
-    $( '.use_icons' ).change( function() {
+    $( '.wpvs_use_icons' ).change( function() {
     	
-    	$( '.menu_icon' ).toggle();
+    	$( '.wpvs_menu_icon' ).toggle();
     	$( '.wpvs_preview_wrapper ul.wpvs_wrapper li > a span' ).toggleClass( 'no_icons' );
 
     });

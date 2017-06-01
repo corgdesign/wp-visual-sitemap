@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Visual Sitemap
 Description: Plugin to add a visual sitemap to the frontend of your site
-Version:     1.0
+Version:     0.1
 Author:      Martin Stewart
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -64,7 +64,7 @@ function wpvs_enqueue_front_end_fontawesome() {
 
 }
 
-if ( get_option( 'use_icons' ) === 'yes' ) {
+if ( get_option( 'wpvs_use_icons' ) === 'yes' ) {
 	add_action( 'wp_enqueue_scripts' , 'wpvs_enqueue_front_end_fontawesome' );
 }
 
@@ -94,12 +94,12 @@ function wpvs_plugin_options() {
 			do_settings_sections( 'wpvs_option_group' );
 
 			# Get previously set options
-			$icon_background_colour 	  = get_option( 'icon_background_colour' );
-			$text_colour 				  = get_option( 'text_colour' );
-			$hover_icon_background_colour = get_option( 'hover_icon_background_colour' );
-			$hover_text_colour 			  = get_option( 'hover_text_colour' );
-			$line_colour 				  = get_option( 'line_colour' );
-			$font_size 					  = get_option( 'font_size' );
+			$wpvs_icon_background_colour 	   = get_option( 'wpvs_icon_background_colour' );
+			$wpvs_text_colour 				   = get_option( 'wpvs_text_colour' );
+			$wpvs_hover_icon_background_colour = get_option( 'wpvs_hover_icon_background_colour' );
+			$wpvs_hover_text_colour 		   = get_option( 'wpvs_hover_text_colour' );
+			$wpvs_line_colour 				   = get_option( 'wpvs_line_colour' );
+			$wpvs_font_size 				   = get_option( 'wpvs_font_size' );
 
 			?>
 
@@ -107,49 +107,49 @@ function wpvs_plugin_options() {
 		        <tr valign="top">
 		        	<th scope="row">Background colour</th>
 		        	<td>
-		        		<input type="text" name="icon_background_colour" class="icon_background_colour" data-default-color="#009691" value="<?php echo empty( $icon_background_colour ) ? '#009691' : esc_attr( $icon_background_colour ); ?>" />
+		        		<input type="text" name="wpvs_icon_background_colour" class="wpvs_icon_background_colour" data-default-color="#009691" value="<?php echo empty( $wpvs_icon_background_colour ) ? '#009691' : esc_attr( $wpvs_icon_background_colour ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Text colour</th>
 		        	<td>
-		        		<input type="text" name="text_colour" class="text_colour" data-default-color="#FFFFFF" value="<?php echo empty( $text_colour ) ? '#FFFFFF' : esc_attr( $text_colour ); ?>" />
+		        		<input type="text" name="wpvs_text_colour" class="wpvs_text_colour" data-default-color="#FFFFFF" value="<?php echo empty( $wpvs_text_colour ) ? '#FFFFFF' : esc_attr( $wpvs_text_colour ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Hover background colour</th>
 		        	<td>
-		        		<input type="text" name="hover_icon_background_colour" class="hover_icon_background_colour" data-default-color="#CCCCCC" value="<?php echo empty( $hover_icon_background_colour ) ? '#CCCCCC' : esc_attr( $hover_icon_background_colour ); ?>" />
+		        		<input type="text" name="wpvs_hover_icon_background_colour" class="wpvs_hover_icon_background_colour" data-default-color="#CCCCCC" value="<?php echo empty( $wpvs_hover_icon_background_colour ) ? '#CCCCCC' : esc_attr( $wpvs_hover_icon_background_colour ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Hover text colour</th>
 		        	<td>
-		        		<input type="text" name="hover_text_colour" class="hover_text_colour" data-default-color="#CCCCCC" value="<?php echo empty( $hover_text_colour ) ? '#CCCCCC' : esc_attr( $hover_text_colour ); ?>" />
+		        		<input type="text" name="wpvs_hover_text_colour" class="wpvs_hover_text_colour" data-default-color="#CCCCCC" value="<?php echo empty( $wpvs_hover_text_colour ) ? '#CCCCCC' : esc_attr( $wpvs_hover_text_colour ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Line colour</th>
 		        	<td>
-		        		<input type="text" name="line_colour" class="line_colour" data-default-color="#CCCCCC" value="<?php echo empty( $line_colour ) ? '#CCCCCC' : esc_attr( $line_colour ); ?>" />
+		        		<input type="text" name="wpvs_line_colour" class="wpvs_line_colour" data-default-color="#CCCCCC" value="<?php echo empty( $wpvs_line_colour ) ? '#CCCCCC' : esc_attr( $wpvs_line_colour ); ?>" />
 		        	</td>
 		        </tr>
 
 		        <tr valign="top">
 		        	<th scope="row">Font size</th>
 		        	<td>
-		        		<input type="text" name="font_size" class="font_size" value="<?php echo empty( $font_size ) ? '12px' : esc_attr( $font_size ); ?>" />
+		        		<input type="text" name="wpvs_font_size" class="wpvs_font_size" value="<?php echo empty( $wpvs_font_size ) ? '12px' : esc_attr( $wpvs_font_size ); ?>" />
 		        	</td>
 		        </tr>
 		         
 		        <tr valign="top">
 		        	<th scope="row">Use icons?</th>
 		        	<td>
-		        		<input type="checkbox" name="use_icons" class="use_icons" value="yes" <?php checked( 'yes', get_option( 'use_icons' ) ); ?> />
+		        		<input type="checkbox" name="wpvs_use_icons" class="wpvs_use_icons" value="yes" <?php checked( 'yes', get_option( 'wpvs_use_icons' ) ); ?> />
 		        	</td>
 		        </tr>
 
@@ -158,16 +158,16 @@ function wpvs_plugin_options() {
 		        	<td>
 		        		
 		        		<label for="column_1">1</label>
-		        		<input type="radio" name="number_of_columns" value="1" id="column_1" <?php checked( '1', get_option( 'number_of_columns' ) ); ?> >
+		        		<input type="radio" name="wpvs_number_of_columns" value="1" id="column_1" <?php checked( '1', get_option( 'wpvs_number_of_columns' ) ); ?> >
 
 		        		<label for="column_2">2</label>
-		        		<input type="radio" name="number_of_columns" value="2" id="column_2" <?php checked( '2', get_option( 'number_of_columns' ) ); ?> >
+		        		<input type="radio" name="wpvs_number_of_columns" value="2" id="column_2" <?php checked( '2', get_option( 'wpvs_number_of_columns' ) ); ?> >
 
 		        		<label for="column_3">3</label>
-		        		<input type="radio" name="number_of_columns" value="3" id="column_3" <?php checked( '3', get_option( 'number_of_columns' ) ); ?> >
+		        		<input type="radio" name="wpvs_number_of_columns" value="3" id="column_3" <?php checked( '3', get_option( 'wpvs_number_of_columns' ) ); ?> >
 
 		        		<label for="column_4">4</label>
-		        		<input type="radio" name="number_of_columns" value="4" id="column_4" <?php checked( '4', get_option( 'number_of_columns' ) ); ?> >
+		        		<input type="radio" name="wpvs_number_of_columns" value="4" id="column_4" <?php checked( '4', get_option( 'wpvs_number_of_columns' ) ); ?> >
 
 		        	</td>
 		        </tr>
@@ -186,6 +186,7 @@ function wpvs_plugin_options() {
 				    	$grandchild = 'Mary';
 		    			break;
 
+		    		# SPOILER ALERT!!
 		    		case '2':
 		    			$parent = 'Anakin';
 				    	$child_1 = 'Leia';
@@ -213,15 +214,15 @@ function wpvs_plugin_options() {
 		    	<strong>Preview</strong>
 		    	<div class="wpvs_preview_wrapper">
 			    	<ul class="wpvs_wrapper">
-			    		<li class="wpvs_column_1 page_item page-item-178 page_item_has_children"><a href="#"><div class="menu_icon"><i class="fa fa-space-shuttle"></i></div><span><?php echo $parent; ?></span></a>
+			    		<li class="wpvs_column_1 page_item page-item-178 page_item_has_children"><a href="#"><div class="wpvs_menu_icon"><i class="fa fa-space-shuttle"></i></div><span><?php echo $parent; ?></span></a>
 							<ul class='children'>
-								<li class="page_item page-item-180 page_item_has_children"><a href="#"><div class="menu_icon"><i class="fa fa-diamond"></i></div><span><?php echo $child_1; ?></span></a>
+								<li class="page_item page-item-180 page_item_has_children"><a href="#"><div class="wpvs_menu_icon"><i class="fa fa-diamond"></i></div><span><?php echo $child_1; ?></span></a>
 									<ul class='children'>
-										<li class="page_item page-item-182 page_item_has_children"><a href="#"><div class="menu_icon"><i class="fa fa-ship"></i></div><span><?php echo $grandchild; ?></span></a>
+										<li class="page_item page-item-182 page_item_has_children"><a href="#"><div class="wpvs_menu_icon"><i class="fa fa-ship"></i></div><span><?php echo $grandchild; ?></span></a>
 										</li>
 									</ul>
 								</li>
-								<li class="page_item page-item-188"><a href="http://127.0.0.1:8080/wordpress/page-1/child-2/"><div class="menu_icon"><i class="fa fa-bolt"></i></div><span><?php echo $child_2; ?></span></a></li>
+								<li class="page_item page-item-188"><a href="http://127.0.0.1:8080/wordpress/page-1/child-2/"><div class="wpvs_menu_icon"><i class="fa fa-bolt"></i></div><span><?php echo $child_2; ?></span></a></li>
 							</ul>
 						</li>
 					</ul>
@@ -237,19 +238,19 @@ function wpvs_plugin_options() {
 			<style>
 				
 				ul.wpvs_wrapper li > a {
-					<?php if ( ! empty( $icon_background_colour ) ) { echo 'background-color: ' . $icon_background_colour . '; ' ;} ?>
-					<?php if ( ! empty( $text_colour ) ) { echo 'color: ' . $text_colour . '; ' ;} ?>
-					<?php if ( ! empty( $font_size ) ) { echo 'font-size: ' . $font_size . ';' ;} ?>			
+					<?php if ( ! empty( $wpvs_icon_background_colour ) ) { echo 'background-color: ' . $wpvs_icon_background_colour . '; ' ;} ?>
+					<?php if ( ! empty( $wpvs_text_colour ) ) { echo 'color: ' . $wpvs_text_colour . '; ' ;} ?>
+					<?php if ( ! empty( $wpvs_font_size ) ) { echo 'font-size: ' . $wpvs_font_size . ';' ;} ?>			
 				}
 
 				ul.wpvs_wrapper li > a:hover {
-					<?php if ( ! empty( $hover_icon_background_colour ) ) { echo 'background-color: ' . $hover_icon_background_colour . '; ' ;} ?>
-					<?php if ( ! empty( $hover_text_colour ) ) { echo 'color: ' . $hover_text_colour . ';' ;} ?>
+					<?php if ( ! empty( $wpvs_hover_icon_background_colour ) ) { echo 'background-color: ' . $wpvs_hover_icon_background_colour . '; ' ;} ?>
+					<?php if ( ! empty( $wpvs_hover_text_colour ) ) { echo 'color: ' . $wpvs_hover_text_colour . ';' ;} ?>
 				}
 
 				ul.wpvs_wrapper li > a,
 				ul.wpvs_wrapper > li ul li {
-					<?php if ( ! empty( $line_colour ) ) { echo 'border-color: ' . $line_colour . '; ' ;} ?>
+					<?php if ( ! empty( $wpvs_line_colour ) ) { echo 'border-color: ' . $wpvs_line_colour . '; ' ;} ?>
 				}
 
 			</style>
@@ -260,14 +261,14 @@ function wpvs_plugin_options() {
 
 # Register options
 function wpvs_register_settings() {
-  register_setting( 'wpvs_option_group' , 'icon_background_colour' );
-  register_setting( 'wpvs_option_group' , 'text_colour' );
-  register_setting( 'wpvs_option_group' , 'hover_icon_background_colour' );
-  register_setting( 'wpvs_option_group' , 'hover_text_colour' );
-  register_setting( 'wpvs_option_group' , 'line_colour' );
-  register_setting( 'wpvs_option_group' , 'font_size' );
-  register_setting( 'wpvs_option_group' , 'use_icons' );
-  register_setting( 'wpvs_option_group' , 'number_of_columns' );
+  register_setting( 'wpvs_option_group' , 'wpvs_icon_background_colour' );
+  register_setting( 'wpvs_option_group' , 'wpvs_text_colour' );
+  register_setting( 'wpvs_option_group' , 'wpvs_hover_icon_background_colour' );
+  register_setting( 'wpvs_option_group' , 'wpvs_hover_text_colour' );
+  register_setting( 'wpvs_option_group' , 'wpvs_line_colour' );
+  register_setting( 'wpvs_option_group' , 'wpvs_font_size' );
+  register_setting( 'wpvs_option_group' , 'wpvs_use_icons' );
+  register_setting( 'wpvs_option_group' , 'wpvs_number_of_columns' );
 }
 
 if ( is_admin() ) {
@@ -298,10 +299,11 @@ add_action( 'admin_enqueue_scripts' , 'wpvs_fa_picker' );
 
 
 # Register the meta box
-add_action( 'add_meta_boxes' , 'wpvs_metabox' );
 function wpvs_metabox() {
 	add_meta_box( 'wpvs_page_settings' , 'WP Visual Sitemap' , 'wpvs_page_settings' , 'page' , 'side' , 'default' );
 }
+add_action( 'add_meta_boxes' , 'wpvs_metabox' );
+
 
 # Add the fields
 function wpvs_page_settings( $post ) {
@@ -318,7 +320,7 @@ function wpvs_page_settings( $post ) {
 
 <?php
 
-	if ( get_option( 'use_icons' ) === 'yes' ) { ?>
+	if ( get_option( 'wpvs_use_icons' ) === 'yes' ) { ?>
 	
 	<p>
 		<span class="wpvs_label"><label for="wpvs_fa_icon"><?php _e( 'Page icon' , 'wpvs-textdomain' ) ?></label></span>
@@ -430,13 +432,13 @@ class wpvs_walker extends Walker_Page {
 		if( $include_in_sitemap === 'yes' && !is_null( $include_in_sitemap ) ) {
 			
 			# Are we using icons?
-			$use_icons = get_option( 'use_icons' );
-			$wpvs_fa_icon = $use_icons == 'yes' ? get_post_meta( $page->ID , 'wpvs_fa_icon' , true ) : '';
-			$menu_icon_html = $use_icons == 'yes' ? '<div class="menu_icon"><i class="fa ' . $wpvs_fa_icon . '"></i></div>' : '';	
+			$wpvs_use_icons = get_option( 'wpvs_use_icons' );
+			$wpvs_fa_icon = $wpvs_use_icons == 'yes' ? get_post_meta( $page->ID , 'wpvs_fa_icon' , true ) : '';
+			$menu_icon_html = $wpvs_use_icons == 'yes' ? '<div class="wpvs_menu_icon"><i class="fa ' . $wpvs_fa_icon . '"></i></div>' : '';	
 
 			# How many columns?
-			$number_of_columns = get_option( 'number_of_columns' );		
-			$li_class = $depth < 1 ? 'wpvs_column_' . $number_of_columns . ' ' : '';
+			$wpvs_number_of_columns = get_option( 'wpvs_number_of_columns' );		
+			$li_class = $depth < 1 ? 'wpvs_column_' . $wpvs_number_of_columns . ' ' : '';
 
 			# Output list item
 			$output .= $indent . sprintf(
@@ -477,31 +479,31 @@ class wpvs_walker extends Walker_Page {
 
 function wpvs_shortcode( $atts ){
 
-	$icon_background_colour 	  = get_option( 'icon_background_colour' );
-	$text_colour 				  = get_option( 'text_colour' );
-	$hover_icon_background_colour = get_option( 'hover_icon_background_colour' );
-	$hover_text_colour 			  = get_option( 'hover_text_colour' );
-	$wpvs_line_colour 			  = get_option( 'line_colour' );
-	$font_size 					  = get_option( 'font_size' );
+	$wpvs_icon_background_colour 	   = get_option( 'wpvs_icon_background_colour' );
+	$wpvs_text_colour 				   = get_option( 'wpvs_text_colour' );
+	$wpvs_hover_icon_background_colour = get_option( 'wpvs_hover_icon_background_colour' );
+	$wpvs_hover_text_colour 		   = get_option( 'wpvs_hover_text_colour' );
+	$wpvs_wpvs_line_colour 			   = get_option( 'wpvs_line_colour' );
+	$wpvs_font_size 				   = get_option( 'wpvs_font_size' );
 	
 	?>
 
 	<style>
 				
 		ul.wpvs_wrapper li > a {
-			<?php if ( ! empty( $icon_background_colour ) ) { echo 'background-color: ' . $icon_background_colour . '; ' ;} ?>
-			<?php if ( ! empty( $text_colour ) ) { echo 'color: ' . $text_colour . '; ' ;} ?>
-			<?php if ( ! empty( $font_size ) ) { echo 'font-size: ' . $font_size . ';' ;} ?>			
+			<?php if ( ! empty( $wpvs_icon_background_colour ) ) { echo 'background-color: ' . $wpvs_icon_background_colour . '; ' ;} ?>
+			<?php if ( ! empty( $wpvs_text_colour ) ) { echo 'color: ' . $wpvs_text_colour . '; ' ;} ?>
+			<?php if ( ! empty( $wpvs_font_size ) ) { echo 'font-size: ' . $wpvs_font_size . ';' ;} ?>			
 		}
 
 		ul.wpvs_wrapper li > a:hover {
-			<?php if ( ! empty( $hover_icon_background_colour ) ) { echo 'background-color: ' . $hover_icon_background_colour . '; ' ;} ?>
-			<?php if ( ! empty( $hover_text_colour ) ) { echo 'color: ' . $hover_text_colour . ';' ;} ?>
+			<?php if ( ! empty( $wpvs_hover_icon_background_colour ) ) { echo 'background-color: ' . $wpvs_hover_icon_background_colour . '; ' ;} ?>
+			<?php if ( ! empty( $wpvs_hover_text_colour ) ) { echo 'color: ' . $wpvs_hover_text_colour . ';' ;} ?>
 		}
 
 		ul.wpvs_wrapper li > a,
 		ul.wpvs_wrapper > li ul li {
-			<?php if ( ! empty( $line_colour ) ) { echo 'border-color: ' . $line_colour . '; ' ;} ?>
+			<?php if ( ! empty( $wpvs_line_colour ) ) { echo 'border-color: ' . $wpvs_line_colour . '; ' ;} ?>
 		}
 
 	</style>	

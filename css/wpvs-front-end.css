@@ -78,7 +78,7 @@ ul.wpvs_wrapper li a > i {
 	margin-right: 5px;
 }
 
-ul.wpvs_wrapper li > a .menu_icon {
+ul.wpvs_wrapper li > a .wpvs_menu_icon {
 	display: table-cell;
 	font-size: 1.5em;
 	width: 20%;
@@ -97,7 +97,7 @@ ul.wpvs_wrapper li > a span {
     vertical-align: middle;
 }
 
-ul.wpvs_wrapper li > a .menu_icon ~ span {
+ul.wpvs_wrapper li > a .wpvs_menu_icon ~ span {
 	width: 75%;
 }
 
